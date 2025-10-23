@@ -1,4 +1,3 @@
-# Multi-stage build: compile with build tools, ship a tiny runtime
 FROM debian:stable-slim AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -10,7 +9,7 @@ WORKDIR /app
 # Copy sources
 COPY saludos.l saludos.y ./
 
-# Generate parser first because saludos.l includes saludos.tab.h
+# Generate parser first saludos.l includes saludos.tab.h
 RUN bison -d saludos.y && \
     flex -i saludos.l && \
     gcc -O2 -s -o saludos lex.yy.c saludos.tab.c
